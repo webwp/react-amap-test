@@ -1,82 +1,65 @@
 import React , { Component } from 'react';
-import { Map, Polyline } from 'react-amap';
+import { Map, Polygon, Polyline, PolyEditor } from 'react-amap';
 
-import Routers from '../../components/router';
+import { Button } from 'antd';
 
-const randomPath = () => ({
- longitude: 60 + Math.random() * 50,
- latitude: 10 + Math.random() * 40,
-})
- 
-class Changes extends Component{
-  constructor(){
+import Router from '../../components/router'
+
+class App extends Component{
+  constructor() {
     super();
     this.state = {
-      visible: true,
-      draggable: true,
-      path: Array(5).fill(true).map(randomPath),
+      lineActive: true,
+      polygonActive: true,
     };
-    this.lineEvents = {
+    this.editorEvents = {
       created: (ins) => {console.log(ins)},
-      show: () => {console.log('line show')},
-      hide: () => {console.log('line hide')},
-      click: () => {console.log('line clicked')},
-    }
-    this.setss = {
-        click:(e)=>{
-            var s = this.state.path;
-            s.push({longitude: e.lnglat.getLng(), latitude: e.lnglat.getLat()});
-            // this.setState({
-            //     path:s
-            // })
-            this.changePathsss(s)
-        }
-    }
+      addnode: () => {console.log('polyeditor addnode')},
+      adjust: () => {console.log('polyeditor adjust')},
+      removenode: () => {console.log('polyeditor removenode')},
+      end: () => {console.log('polyeditor end')},
+    };
+    this.linePath = [
+      {longitude: 150, latitude: 20 },
+      {longitude: 170, latitude: 20 },
+      {longitude: 150, latitude: 30 },
+    ];
+    this.polygonPath = [
+      {longitude: 120, latitude: 30 },
+      {longitude: 130, latitude: 30 },
+      {longitude: 120, latitude: 40 },
+    ];
+    this.mapCenter = {longitude: 145, latitude: 30 }
   }
-  
-  toggleVisible(){
+  togglePolyline(){
     this.setState({
-      visible: !this.state.visible,
+      lineActive: !this.state.lineActive
     });
   }
-  
-  toggleDraggable(){
+  togglePolygon(){
     this.setState({
-      draggable: !this.state.draggable,
-    })
-  }
-
-  changePathsss(value){
-    this.setState({
-      path: value,
+      polygonActive: !this.state.polygonActive
     });
   }
-  
-  changePath(){
-    this.setState({
-      path: Array(5).fill(true).map(randomPath),
-    });
-  }
-  
   render(){
-      console.log(this.state.path)
     return <div>
       <div style={{width: '100%', height: '370px'}}>
-        <Routers />
-        <Map plugins={['ToolBar']} zoom={3} events={this.setss}>
-          <Polyline 
-            path={ this.state.path }
-            events={ this.lineEvents }
-            visible={ this.state.visible }
-            draggable={ this.state.draggable }
-          />
+        <Router />
+        <Map zoom={3} center={this.mapCenter}>
+          <Polygon path={this.polygonPath}>
+            <PolyEditor active={this.state.polygonActive} events={this.editorEvents} />
+          </Polygon>
+          <Polyline path={this.linePath}>
+            <PolyEditor active={this.state.lineActive} />
+          </Polyline>
         </Map>
       </div>
-      <button onClick={() => {this.toggleVisible() } }>Toggle Visible</button>
-      <button onClick={() => {this.toggleDraggable() } }>Toggle Draggable</button>
-      <button onClick={() => {this.changePath() } }>Change Path</button>
+      <section style={{padding:'10px'}}>
+          <Button onClick={() => { this.togglePolyline() }} >切换多段线编辑</Button>
+          <Button onClick={() => { this.togglePolygon() }} >切换可编辑的多边形</Button>
+      </section>
     </div>
   }
 }
 
-export default Changes;
+export default App;

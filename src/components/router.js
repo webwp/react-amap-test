@@ -42,13 +42,13 @@ class Router extends Component{
                         <a href="#/mapline" rel="noopener noreferrer">绘图</a>
                     </Menu.Item>
                     <Menu.Item key="custom">
-                        <a href="#/custom" rel="noopener noreferrer">测试一</a>
+                        <a href="#/custom" rel="noopener noreferrer">地图操作</a>
                     </Menu.Item>
                     <Menu.Item key="mackermap">
-                        <a href="#/mackermap" rel="noopener noreferrer">测试二</a>
+                        <a href="#/mackermap" rel="noopener noreferrer">多点标记</a>
                     </Menu.Item>
                     <Menu.Item key="change">
-                        <a href="#/change" rel="noopener noreferrer">测试三</a>
+                        <a href="#/change" rel="noopener noreferrer">多边形和线条(编辑)</a>
                     </Menu.Item>
 
                 </Menu>

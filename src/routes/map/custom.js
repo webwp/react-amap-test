@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import { Map,Marker } from 'react-amap';
 
 import Routers from '../../components/router';
+import { Button } from 'antd'
 
 let map;
 const ZoomCtrl = (props) => {
@@ -56,14 +57,10 @@ const ZoomCtrl = (props) => {
   }
 
   return (<div style={style}>
-    <button onClick={zoomIn}>缩小</button>
-    <button onClick={zoomOut}>放大</button>
-    <button onClick={pingyi}>平移</button>
-    <button onClick={zuobiao}>坐标</button>
-
-
-    <button onClick={daohang}>导航</button>
-    
+    <Button onClick={zoomIn}>缩小</Button>
+    <Button onClick={zoomOut}>放大</Button>
+    <Button onClick={pingyi}>平移</Button>
+    <Button onClick={zuobiao}>点击地图获取坐标</Button>
   </div>);
 };
 
@@ -84,7 +81,6 @@ class App extends React.Component {
         //   console.log('高德地图 Marker 实例创建成功；如果你要亲自对实例进行操作，可以从这里开始。比如：');
         //   console.log(markerInstance.getPosition());
         //构造路线导航类
-        console.log('------ ')
         var driving = new AMap.Driving({
             map: map,
             panel: "panel"
@@ -107,11 +103,10 @@ class App extends React.Component {
     render() {
       return <div style={{ width: '100%', height: '400px' }}>
       <Routers />
-        <Map events={this.amapEvents} zoom={12}>
+        <Map events={this.amapEvents} zoom={12} >
           <Marker position={this.markerPosition} events={this.markerEvents} />
           <ZoomCtrl />
         </Map>
-        <button onClick={this.onHandle} >导航</button>
       </div>
     }
   }
